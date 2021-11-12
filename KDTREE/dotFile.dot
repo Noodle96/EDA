@@ -1,0 +1,13 @@
+digraph ll {
+
+	f10[shape=Mrecord, style=filled, fillcolor="#02ff14" , label="{ <data> 52  |  <ew>F   } "];
+
+	e90 -> f10 [label=a];
+	e90 -> 110 [label=v];
+	f10 -> f90 [label=b];
+	110 -> 190 [label=e];
+	f90 -> 010 [label=c];
+	f90 -> 090 [label=d];
+	190 -> 210 [label=a];
+}
+
