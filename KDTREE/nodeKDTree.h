@@ -29,6 +29,9 @@ class NodeKDTREE{
         m_pRight = NULL;
     }
     ~NodeKDTREE(){}
+    std::vector<TYPE_POINT> getPoint(){
+        return this->m_point;
+    }
 
     std::string pointToString(){
         string num_str="\"(";

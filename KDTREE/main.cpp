@@ -1,4 +1,5 @@
 #include"kdTree.h"
+#include"fuerzaBruta.h"
 
 void splitLine(std::string line,std::vector<TYPE_POINT> &vectorF){
 	std::string temp = "";
@@ -65,8 +66,42 @@ int main(){
 	kdtree->insert(kdtree->root,e,0);
 	kdtree->insert(kdtree->root,f,0);
 	*/
-
 	kdtree->draw();
+	delete kdtree;
+
+
+	FuerzaBrutaKNN *fb = new FuerzaBrutaKNN();
+
+	std::string LINE;
+	std::vector<TYPE_POINT> vectorTemporal;
+  	ifstream file ("testX.csv");
+  	if (file.is_open()) {
+    	while( getline (file,LINE) ){
+			 if(!LINE.empty()){
+				splitLine(LINE,vectorTemporal);
+				Point ptemp(vectorTemporal);
+				fb->insert(ptemp);
+				vectorTemporal.clear();
+			 }
+
+    	}
+    file.close();
+  	}
+	//1.6912,0.068402,0.46113
+	std::vector<TYPE_POINT> pointTest;
+	pointTest.push_back(1.6912); pointTest.push_back(0.068402); pointTest.push_back(0.46113);
+	Point pointTesting(pointTest);
+	auto knn = fb->KNN_search(pointTesting,3);
+	for(auto it = knn.begin() ; it!= knn.end(); it++){
+		for(auto et = (*it).point.begin() ; et != (*it).point.end(); et++){
+			cout << "{" << *et <<", ";
+		}cout << "}";
+	}
+	//cout << "printing" << endl;
+	//fb->print();
+
+	delete fb;
+
 	
 	return 0;
 }
