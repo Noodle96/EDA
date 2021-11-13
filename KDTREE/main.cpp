@@ -67,6 +67,8 @@ int main(){
 	kdtree->insert(kdtree->root,f,0);
 	*/
 	kdtree->draw();
+	std::vector<TYPE_POINT> target; target.push_back(1);target.push_back(2);target.push_back(3);
+	kdtree->nearestNeighbor(kdtree->root,target,0);
 	delete kdtree;
 
 

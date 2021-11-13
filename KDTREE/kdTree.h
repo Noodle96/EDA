@@ -2,6 +2,17 @@
 #define KDTREE_H
 
 #include"nodeKDTree.h"
+#include<cmath>
+
+TYPE_POINT distance(std::vector<TYPE_POINT> &point1,std::vector<TYPE_POINT> &point2){
+    return sqrt(
+        (point1[0]-point2[0])*(point1[0]- point2[0]) +
+        (point1[1]-point2[1])*(point1[1]- point2[1]) +
+        (point1[2]-point2[2])*(point1[2]- point2[2])
+    );
+}
+
+
 
 class KdTree{
     public:
@@ -72,6 +83,46 @@ class KdTree{
                 return search(node->m_pLeft,point,depth+1);
             return search(node->m_pLeft,point,depth+1);
         }
+
+
+        //util function to nearestNeighbor
+        // Determines whether n0 or n1 is closer to the target.
+        NodeKDTREE *closest(NodeKDTREE *n0, NodeKDTREE *n1, std::vector<TYPE_POINT> &target){
+            if(n0 == NULL) return n1;
+            if(n1 == NULL) return n0;
+            TYPE_POINT d1 = distance(n0->m_point,target);
+            TYPE_POINT d2 = distance(n1->m_point,target);
+            if(d1<d2) return n0;
+            else return n1;
+        }
+
+
+        //vecinos mas cercanos (KNN)
+        NodeKDTREE *nearestNeighbor(NodeKDTREE *node,std::vector<TYPE_POINT> &target, int depth){
+            if(node == NULL) return NULL;
+            NodeKDTREE *nextBranch = NULL;
+            NodeKDTREE *otherBranch =  NULL;
+            if(target[depth%K] < node->m_point[depth%K]){
+                nextBranch = node->m_pLeft;
+                otherBranch = node->m_pRight;
+            }else{
+                nextBranch = node->m_pRight;
+                otherBranch = node->m_pLeft;
+            }
+            // recurse down
+            NodeKDTREE *temp = nearestNeighbor(nextBranch,target,depth+1);
+            NodeKDTREE *best = closest(temp,node,target);
+
+            long radiusSquared = distance(target,best->m_point); //r
+            long dist = target[depth%K] - node->m_point[depth%K]; //rp
+
+            if(radiusSquared >= dist*dist){ //other side
+                temp = nearestNeighbor(otherBranch,target,depth+1);
+                best = closest(temp,best,target);
+            }
+            return best;
+        }
+
 };
 
 
