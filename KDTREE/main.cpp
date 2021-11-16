@@ -1,6 +1,8 @@
 #include"kdTree.h"
 #include"fuerzaBruta.h"
 
+#include<fstream>
+
 void splitLine(std::string line,std::vector<TYPE_POINT> &vectorF){
 	std::string temp = "";
 	float g;
@@ -67,9 +69,15 @@ int main(){
 	kdtree->insert(kdtree->root,f,0);
 	*/
 	kdtree->draw();
-	std::vector<TYPE_POINT> target; target.push_back(1);target.push_back(2);target.push_back(3);
-	kdtree->nearestNeighbor(kdtree->root,target,0);
+	//1.64,0.092,0.45
+	std::vector<TYPE_POINT> target; target.push_back(1.64);target.push_back(0.092);target.push_back(0.45);
+	NodeKDTREE *knnKDT =   kdtree->nearestNeighbor(kdtree->root,target,0);
+	fstream fileKNN;
+    fileKNN.open("kdtree_knn.csv",ios::app);
+	knnKDT->printPoint(fileKNN);
 	delete kdtree;
+
+
 
 
 	FuerzaBrutaKNN *fb = new FuerzaBrutaKNN();
@@ -89,11 +97,11 @@ int main(){
     	}
     file.close();
   	}
-	//1.6912,0.068402,0.46113
+	//1.64,0.092,0.45
 	std::vector<TYPE_POINT> pointTest;
-	pointTest.push_back(1.6912); pointTest.push_back(0.068402); pointTest.push_back(0.46113);
+	pointTest.push_back(1.64); pointTest.push_back(0.092); pointTest.push_back(0.45);
 	Point pointTesting(pointTest);
-	auto knn = fb->KNN_search(pointTesting,3);
+	auto knn = fb->KNN_search(pointTesting,2);
 	for(auto it = knn.begin() ; it!= knn.end(); it++){
 		for(auto et = (*it).point.begin() ; et != (*it).point.end(); et++){
 			cout << "{" << *et <<", ";

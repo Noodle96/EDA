@@ -32,6 +32,9 @@ class NodeKDTREE{
     std::vector<TYPE_POINT> getPoint(){
         return this->m_point;
     }
+    void printPoint(ostream&file){
+        file << this->m_point[0] << "," << this->m_point[1] << "," << this->m_point[2] <<endl;
+    }
 
     std::string pointToString(){
         string num_str="\"(";
