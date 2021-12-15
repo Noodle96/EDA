@@ -4,7 +4,7 @@
 #include "rectangle.h"
 #define SCREEN_W 600
 #define SCREEN_H 600
-#define LEVELMAX 2
+#define LEVELMAX 4
 #define CAPACITY 1
 
 class QuadTree{
@@ -20,6 +20,7 @@ class QuadTree{
         vector<Point *>children;
         
         void subdivide(){
+            cout << "Subdivide-----------------------------------------------------------" << endl;
             static Vector2f halfSize;
             halfSize.x = boundaries.w / 2.0f;
             halfSize.y = boundaries.h / 2.0f;
@@ -62,8 +63,15 @@ class QuadTree{
             divided(false),
             capacity(capacity),
             level(level){
-                if(level >= LEVELMAX) capacity = 0;
-            }
+                //cout << "milevel: " << level << endl;
+                if(level >= LEVELMAX){
+                     this->capacity = 0;
+                     cout << "Asigning capacity = zero" <<endl;
+                }
+                 //cout << "milevel: " << level << endl;
+                 //cout << "micapacity: " << capacity << endl;
+                 //cout << "Inside if" <<endl;
+        }
         
         ~QuadTree(){
             if(divided){
@@ -78,10 +86,16 @@ class QuadTree{
             if(!boundaries.contains(*p)) return false;
             if(!divided){
                 children.push_back(p);
-                if(children.size() > capacity && capacity != 0){
+                //cout << "BOOLENANO: "<< capacity << "- is: " << (capacity != 0) << endl;
+                if(children.size() > capacity && (capacity != 0)){
+                    //cout << "CAPACITY: " <<capacity << endl;
+                    //cout << "SUBDIVIDE IN " << endl;
+                    //p->printPoint();
                     subdivide();
                     auto it = children.begin();
                     while(it != children.end()){
+                        //cout << "Level: " << level << endl;
+                        (*it)->printPoint();
                         if(topLeft->insert(*it));
                         else if(TopRight->insert(*it));
                         else if(bottomLeft->insert(*it));

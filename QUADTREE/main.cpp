@@ -7,11 +7,6 @@
 using namespace sf;
 #include "quadTree.h"
 
-
-
-
-
-
 int main()
 {
 	sf::RenderWindow window(
@@ -30,7 +25,7 @@ int main()
     CircleShape shape;
     shape.setRadius(3);
     shape.setOrigin(3,3);
-    Rectangle area(200,200,100,100);
+    Rectangle area(200,200,100,100); //Initial Position
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -40,7 +35,7 @@ int main()
                     event.mouseButton.button == Mouse::Left){
                         po = new Point(Mouse::getPosition(window).x,
                                 Mouse::getPosition(window).y);
-                        po->printPoint();
+                        //po->printPoint();
                         points.push_back(po);
                         quadtree.insert(po) ;
                     }
@@ -55,7 +50,7 @@ int main()
 
         //50 PUNTOS ALEATORIOS
         //num=1+rand()%(101-1);
-        srand(time(NULL));
+        //srand(time(NULL));
         //for(size_t e = 0 ; e<10; e++){
             //po = new Point( rand()%(SCREEN_W),
             //                    rand()%(SCREEN_W));
